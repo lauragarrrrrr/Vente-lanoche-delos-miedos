@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a1c33">
+<title>La noche de los miedos de VENTE · ASISA VENTE</title>
+<meta name="description" content="Especial Halloween de ASISA VENTE: confiesa tu miedo, abre conversaciones y comparte tu mejor truco.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23195184'/%3E%3Cpath d='M20 7a9 9 0 1 0 5 15 10 10 0 0 1-5-15z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Colores: cambia aquí el azul de marca cuando tengamos el código exacto */
+:root{
+  --brand:#195184;        /* azul ASISA VENTE (PENDIENTE confirmar) */
+  --brand-dark:#0f3a63;
+  --night:#0a1c33;
+  --night-2:#122c4d;
+  --sky:#eaf3fb;
+  --sky-2:#cfe3f5;
+  --white:#fff;
+  --ink:#0f2236;
+  --muted:#5b6b7d;
+  --line:#d8e4f0;
+  --pumpkin:#f08a24;      /* solo detalles de Halloween */
+  --error:#c0392b;
+  --ok:#1f8a5b;
+  --radius:22px;
+  --shadow:0 18px 40px -18px rgba(5,20,45,.55);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:radial-gradient(120% 80% at 80% 0%,#1b4677 0%,var(--night-2) 45%,var(--night) 100%) fixed;
+  min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button,input,textarea{font:inherit}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Fondo: estrellas y murciélagos sutiles */
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.1}}
+.moon{position:absolute;right:-40px;top:70px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fdf6df,#e9dcb5 60%,#cdbd8f);
+  box-shadow:0 0 80px 20px rgba(253,246,223,.18);opacity:.9}
+.bat{position:absolute;width:34px;color:#06111f;opacity:.75;animation:fly 18s linear infinite}
+.bat svg{display:block;width:100%;animation:flap .35s ease-in-out infinite alternate}
+@keyframes flap{to{transform:scaleY(.55)}}
+@keyframes fly{from{transform:translateX(-60px)}to{transform:translateX(calc(100vw + 60px))}}
+
+/* Estructura */
+.wrap{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+.brand{color:#fff;font-weight:800;letter-spacing:.06em;font-size:1.05rem;line-height:1}
+.brand span{font-weight:400;opacity:.85;margin-left:.3em}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:6px 10px;border-radius:999px}
+.chip svg{width:14px;height:14px;color:var(--pumpkin)}
+
+/* Progreso */
+.progress{margin:6px 0 16px;display:none}
+.progress.on{display:block}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;color:#cfe0f2;font-size:.8rem;margin-bottom:8px}
+.progress-top b{color:#fff;font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.step{height:8px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden;position:relative}
+.step::after{content:"";position:absolute;inset:0;width:0;background:linear-gradient(90deg,#8cc2f0,#fff);border-radius:inherit;transition:width .5s ease}
+.step.done::after,.step.now::after{width:100%}
+.step.now::after{background:linear-gradient(90deg,var(--pumpkin),#ffc27a)}
+
+/* Tarjetas y pantallas */
+.screen{display:none;animation:enter .45s cubic-bezier(.2,.8,.2,1)}
+.screen.on{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 20px 24px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,var(--brand),#5aa0de)}
+.kicker{display:flex;align-items:center;gap:10px;color:var(--brand);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:4px 0 6px}
+.kicker .ico{width:38px;height:38px;border-radius:12px;background:var(--sky);display:grid;place-items:center;flex:none}
+.kicker .ico svg{width:22px;height:22px}
+h1,h2{margin:0;line-height:1.15;letter-spacing:-.01em}
+h2{font-size:1.45rem;color:var(--ink)}
+.claim{font-size:1.02rem;color:var(--muted);margin:8px 0 18px}
+.situ{background:var(--sky);border-left:4px solid var(--brand);border-radius:14px;padding:14px 16px;margin:0 0 16px;font-size:.98rem;line-height:1.5}
+.situ p{margin:0}
+.situ p+p{margin-top:8px}
+.q{font-weight:600;font-size:1.06rem;margin:0 0 12px;line-height:1.4}
+.hint{font-size:.85rem;color:var(--muted);margin:-4px 0 10px}
+
+/* Opciones */
+.opts{display:grid;gap:10px;margin:0 0 18px;padding:0;border:0}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt label{display:flex;gap:12px;align-items:flex-start;padding:14px 14px;border:2px solid var(--line);border-radius:16px;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s;line-height:1.4;font-size:.98rem}
+.opt label:hover{border-color:#a9c8e6}
+.opt label:active{transform:scale(.99)}
+.opt .dot{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #9fb6cc;margin-top:1px;display:grid;place-items:center;transition:all .2s}
+.opt .letter{flex:none;width:28px;height:28px;border-radius:9px;background:var(--sky);color:var(--brand);font-weight:700;display:grid;place-items:center;font-size:.9rem;transition:all .2s}
+.opt input:checked+label{border-color:var(--brand);background:#f3f8fd}
+.opt input:checked+label .dot{border-color:var(--brand);background:var(--brand);box-shadow:inset 0 0 0 4px #fff}
+.opt input:checked+label .letter{background:var(--brand);color:#fff}
+.opt input:focus-visible+label{outline:3px solid #8cc2f0;outline-offset:2px}
+
+/* Campos de texto */
+.field{margin:0 0 18px}
+.field label{display:block;font-weight:600;font-size:.95rem;margin-bottom:8px;line-height:1.4}
+.field .opt-tag{font-weight:500;color:var(--muted);font-size:.8rem;background:var(--sky);padding:2px 8px;border-radius:99px;margin-left:4px;white-space:nowrap}
+textarea{width:100%;min-height:130px;resize:vertical;border:2px solid var(--line);border-radius:16px;padding:14px;font-size:1rem;line-height:1.5;color:var(--ink);background:#fbfdff;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--brand);background:#fff}
+.count{text-align:right;font-size:.78rem;color:var(--muted);margin-top:6px}
+.count.near{color:var(--pumpkin)}
+.err{color:var(--error);font-size:.88rem;font-weight:500;margin:-6px 0 14px;display:none}
+.err.on{display:block}
+
+/* Feedback reto 3 */
+.feedback{display:none;background:linear-gradient(135deg,#f3f8fd,#e6f0fa);border:1px solid var(--sky-2);border-radius:16px;padding:14px 16px;margin:0 0 18px;font-size:.96rem;line-height:1.5}
+.feedback.on{display:block;animation:enter .4s ease}
+.feedback strong{display:flex;align-items:center;gap:8px;color:var(--brand);margin-bottom:6px}
+.feedback strong svg{width:18px;height:18px;color:var(--pumpkin)}
+.feedback p{margin:0}
+.feedback p+p{margin-top:8px}
+
+/* Botones */
+.actions{display:flex;flex-direction:column;gap:10px}
+.btn{appearance:none;border:0;cursor:pointer;border-radius:16px;padding:16px 20px;font-weight:700;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;transition:transform .15s,box-shadow .2s,opacity .2s}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 0 var(--brand-dark),0 12px 24px -10px rgba(25,81,132,.7)}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-primary:active{transform:translateY(4px);box-shadow:0 2px 0 var(--brand-dark)}
+.btn-primary[disabled]{opacity:.6;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--brand);text-transform:none;letter-spacing:0;font-weight:600;min-height:44px;padding:10px}
+.btn-glow{background:#fff;color:var(--brand);box-shadow:0 6px 0 #bcd6ee,0 0 40px rgba(255,255,255,.25)}
+.btn-glow:active{transform:translateY(4px);box-shadow:0 2px 0 #bcd6ee}
+.btn svg{width:20px;height:20px}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none}
+.btn.loading .spinner{display:inline-block}
+.btn.loading .lbl-ico{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error de envío */
+.alert{display:none;border-radius:14px;padding:14px 16px;margin:0 0 14px;background:#fdecea;color:#8a2318;font-size:.92rem;line-height:1.45;border:1px solid #f5c2bb}
+.alert.on{display:block;animation:enter .3s ease}
+
+/* Bienvenida */
+.hero{color:#fff;text-align:center;padding:28px 4px 8px}
+.hero .gate{width:132px;height:132px;margin:6px auto 18px;position:relative}
+.hero .gate svg{width:100%;height:100%}
+.hero .glow{position:absolute;inset:18% 24% 6%;background:radial-gradient(closest-side,rgba(255,194,122,.85),rgba(240,138,36,0));filter:blur(6px);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55;transform:scale(.92)}}
+.hero h1{font-size:clamp(1.9rem,8vw,2.6rem);font-weight:800;line-height:1.05;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 4px 24px rgba(0,0,0,.35)}
+.hero h1 em{font-style:normal;color:#ffc27a}
+.hero .intro{max-width:460px;margin:18px auto 0;color:#dce9f6;font-size:1.02rem;line-height:1.6}
+.hero .intro p{margin:0 0 12px}
+.hero .dare{font-weight:700;color:#fff;font-size:1.15rem}
+.hero .actions{max-width:380px;margin:22px auto 0}
+.privacy{display:flex;align-items:center;justify-content:center;gap:8px;color:#a9c3dd;font-size:.8rem;margin:18px auto 0;max-width:420px;line-height:1.4}
+.privacy svg{width:16px;height:16px;flex:none}
+
+/* Final */
+.final{text-align:center;color:#fff;padding:24px 4px 8px;position:relative}
+.final .badge{width:118px;height:118px;margin:4px auto 16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd29a,var(--pumpkin));display:grid;place-items:center;
+  box-shadow:0 0 0 10px rgba(255,255,255,.08),0 0 60px rgba(240,138,36,.45);animation:pop .7s cubic-bezier(.2,1.6,.4,1)}
+.final .badge svg{width:64px;height:64px}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.final h1{font-size:clamp(1.6rem,7vw,2.2rem);font-weight:800;text-transform:uppercase;line-height:1.1}
+.final .card{text-align:left;margin-top:22px;color:var(--ink)}
+.final .card p{margin:0 0 12px;line-height:1.6}
+.final .big{font-size:1.15rem;font-weight:700;color:var(--brand)}
+.final .sign{margin-top:22px;text-align:center}
+.final .sign b{display:block;font-size:1.15rem;letter-spacing:.06em;color:#fff}
+.final .sign span{display:block;margin-top:6px;font-weight:800;letter-spacing:.08em;color:#cfe0f2}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.confetti i{position:absolute;top:-30px;width:10px;height:14px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+/* Campo trampa (antispam) */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+@media (min-width:700px){
+  .card{padding:30px 32px 32px}
+  .actions.row{flex-direction:row-reverse;justify-content:space-between;align-items:center}
+  .actions.row .btn-primary{min-width:260px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true" id="sky">
+  <div class="moon"></div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="brand" aria-label="ASISA VENTE">ASISA<span>VENTE</span></div>
+    <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Especial Halloween</div>
+  </header>
+
+  <nav class="progress" id="progress" aria-label="Progreso">
+    <div class="progress-top"><b id="progressLabel">Reto 1 de 4</b><span id="progressName"></span></div>
+    <div class="steps"><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+  </nav>
+
+  <main id="app">
+
+    <!-- PANTALLA 0 · BIENVENIDA -->
+    <section class="screen" data-screen="0" aria-labelledby="t0">
+      <div class="hero">
+        <div class="gate" aria-hidden="true">
+          <div class="glow"></div>
+          <svg viewBox="0 0 120 120" fill="none">
+            <path d="M28 112V50a32 32 0 0 1 64 0v62" stroke="#cfe0f2" stroke-width="5" stroke-linecap="round"/>
+            <path d="M38 112V52a22 22 0 0 1 44 0v60z" fill="#0d2440" stroke="#8cc2f0" stroke-width="3"/>
+            <path d="M60 30v82" stroke="#8cc2f0" stroke-width="2" opacity=".5"/>
+            <circle cx="70" cy="76" r="3.5" fill="#ffc27a"/>
+            <circle cx="50" cy="76" r="3.5" fill="#ffc27a"/>
+            <path d="M16 112h88" stroke="#cfe0f2" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1 id="t0">La noche de los <em>miedos</em> de VENTE</h1>
+        <div class="intro">
+          <p>Todos tenemos algún miedo. Y cuando se trata de recomendar, a veces aparecen más de los que imaginamos.</p>
+          <p>Esta noche te invitamos a descubrirlos, enfrentarte a algún reto y compartir ese truco que a ti siempre te funciona.</p>
+          <p class="dare">¿Te atreves?</p>
+        </div>
+        <div class="actions">
+          <button class="btn btn-glow" type="button" data-go="1">Entrar si te atreves
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <p class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Participación anónima. No incluyas datos personales de terceros.</p>
+      </div>
+    </section>
+
+    <!-- RETO 1 · EL CONFESIONARIO DEL MIEDO -->
+    <section class="screen" data-screen="1" aria-labelledby="t1">
+      <div class="card">
+        <div class="kicker"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#195184" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C7 3 5 7 5 11v9l2.5-2 2 2 2.5-2 2.5 2 2-2 2.5 2v-9c0-4-2-8-7-8z"/><circle cx="9.5" cy="11" r="1" fill="#195184"/><circle cx="14.5" cy="11" r="1" fill="#195184"/></svg></span>Reto 1 · El confesionario del miedo</div>
+        <h2 id="t1">Todos tenemos algún miedo. ¿Cuál es el tuyo?</h2>
+        <p class="claim"></p>
+        <fieldset class="opts" id="r1opts">
+          <legend class="q">¿A qué le tienes más miedo cuando llega el momento de recomendar un seguro?</legend>
+        </fieldset>
+        <p class="err" id="r1err" role="alert">Elige una opción para seguir.</p>
+        <div class="field">
+          <label for="r1text">¿Quieres confesarnos algo más? Cuéntanos qué te frena o qué situación te resulta más difícil. <span class="opt-tag">Opcional</span></label>
+          <textarea id="r1text" maxlength="1500" data-key="r1_texto"></textarea>
+          <div class="count" data-count="r1text">0 / 1.500</div>
+        </div>
+        <div class="actions row">
+          <button class="btn btn-primary" type="button" data-next="1">Siguiente reto<svg class="lbl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-ghost" type="button" data-go="0">Volver</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RETO 2 · TOCA A LA PUERTA -->
+    <section class="screen" data-screen="2" aria-labelledby="t2">
+      <div class="card">
+        <div class="kicker"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#195184" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M3 21h18"/><circle cx="14.5" cy="12" r="1" fill="#195184"/></svg></span>Reto 2 · Toca a la puerta</div>
+        <h2 id="t2">Tienes una oportunidad delante. ¿Cómo empiezas?</h2>
+        <p class="claim"></p>
+        <div class="situ"><p>Estás tomando un café con un amigo y te cuenta que está pagando mucho por su seguro de hogar.</p></div>
+        <div class="field">
+          <label for="r2text" class="q">¿Qué le dirías para abrir la conversación y explorar si existe una oportunidad con ASISA?</label>
+          <textarea id="r2text" maxlength="1500" placeholder="¿Y tú qué le dirías?" data-key="reto2_respuesta" required></textarea>
+          <div class="count" data-count="r2text">0 / 1.500</div>
+        </div>
+        <p class="err" id="r2err" role="alert">Escribe tu respuesta para abrir la puerta.</p>
+        <div class="actions row">
+          <button class="btn btn-primary" type="button" data-next="2">Abrir la puerta<svg class="lbl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-ghost" type="button" data-go="1">Volver al reto anterior</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RETO 3 · LA PUERTA CERRADA -->
+    <section class="screen" data-screen="3" aria-labelledby="t3">
+      <div class="card">
+        <div class="kicker"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#195184" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><path d="M12 15v2"/></svg></span>Reto 3 · La puerta cerrada</div>
+        <h2 id="t3">Una oportunidad aparece. ¿Sabrás cómo avanzar?</h2>
+        <p class="claim"></p>
+        <div class="situ">
+          <p>Estás hablando con un amigo sobre sus planes para el año que viene. Te cuenta que acaba de renovar su seguro de salud y que está contento con su compañía.</p>
+          <p>Te gustaría explorar si existe alguna oportunidad con ASISA.</p>
+        </div>
+        <fieldset class="opts" id="r3opts">
+          <legend class="q">¿Qué le dirías?</legend>
+        </fieldset>
+        <p class="err" id="r3err" role="alert">Elige una respuesta para seguir adelante.</p>
+        <div class="feedback" id="r3feedback" aria-live="polite">
+          <strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>Para pensarlo un momento</strong>
+          <p id="r3fbText"></p>
+          <p id="r3fbCommon"></p>
+        </div>
+        <div class="actions row">
+          <button class="btn btn-primary" type="button" data-next="3">Seguir adelante<svg class="lbl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-ghost" type="button" data-go="2">Volver al reto anterior</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RETO 4 · EL CONJURO INFALIBLE -->
+    <section class="screen" data-screen="4" aria-labelledby="t4">
+      <div class="card">
+        <div class="kicker"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#195184" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L15 9"/><path d="M15 9l2-2"/><path d="M18 2v3M21 5h-3M20.5 2.5l-1.5 1.5"/><path d="M9 4l.6 1.4L11 6l-1.4.6L9 8l-.6-1.4L7 6l1.4-.6z"/></svg></span>Reto 4 · El conjuro infalible</div>
+        <h2 id="t4">Todos tenemos algún truco que funciona. ¡Compártelo!</h2>
+        <p class="claim"></p>
+        <div class="field">
+          <label for="r4text" class="q">¿Cuál es tu truco para recomendar sin que parezca una venta?</label>
+          <textarea id="r4text" maxlength="1500" placeholder="Mi truco para recomendar sin que parezca una venta es…" data-key="reto4_truco" required></textarea>
+          <div class="count" data-count="r4text">0 / 1.500</div>
+        </div>
+        <p class="err" id="r4err" role="alert">Comparte tu truco para lanzar el conjuro.</p>
+        <div class="hp" aria-hidden="true"><label for="website">No rellenes este campo</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="alert" id="sendErr" role="alert"></div>
+        <div class="actions row">
+          <button class="btn btn-primary" type="button" id="sendBtn"><span class="spinner" aria-hidden="true"></span><span id="sendLbl">Compartir mi conjuro</span><svg class="lbl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-ghost" type="button" data-go="3" id="back4">Volver al reto anterior</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANTALLA FINAL -->
+    <section class="screen" data-screen="5" aria-labelledby="t5">
+      <div class="final">
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M32 14c-3-4-1-8 3-9" stroke="#3d6b2a" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="32" cy="38" rx="22" ry="18" fill="#fff" opacity=".15"/>
+            <path d="M22 34l4-5 4 5zM34 34l4-5 4 5z" fill="#7a3d06"/>
+            <path d="M22 42c3 4 7 6 10 6s7-2 10-6l-4 1-2-2-4 2-4-2-2 2z" fill="#7a3d06"/>
+          </svg>
+        </div>
+        <h1 id="t5">Los miedos se comparten. Los trucos también.</h1>
+        <div class="card">
+          <p class="big">¡Reto superado! 🎃</p>
+          <p>Gracias por participar una vez más en los retos de ASISA VENTE, por dedicar un ratito a compartir tu experiencia y por seguir sumándote a nuestras propuestas.</p>
+          <p>Porque cada truco, cada idea y cada conversación nos ayuda a aprender de los demás.</p>
+        </div>
+        <div class="sign"><b>SEGUIMOS JUGANDO EN EQUIPO.</b><span>ASISA VENTE 💙</span></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  // ---- Contenido de opciones (códigos = lo que se guarda en la base de datos) ----
+  var R1 = [
+    ['no_rechazo',    'Que me digan que no.'],
+    ['parecer_venta', 'Que piensen que les quiero vender algo.'],
+    ['no_saber',      'No saber responder a una pregunta.'],
+    ['no_momento',    'No encontrar el momento para sacar el tema.'],
+    ['otro',          'Otro miedo que todavía no he confesado…']
+  ];
+  var R3 = [
+    ['A', '¡Qué bien! Pues si algún día quieres comparar precios, ASISA tiene opciones interesantes que te podría enseñar.'],
+    ['B', '¿Y qué es lo que más valoras de tu seguro actual? ¿Hay algo que mejorarías?'],
+    ['C', 'Aunque estés contento, siempre merece la pena revisar si estás pagando lo justo. ¿Cuánto pagas al mes?']
+  ];
+  // [PENDIENTE de revisar] Textos de feedback del reto 3
+  var R3_FEEDBACK = {
+    A: 'Dejas la puerta entreabierta, y eso ya es mucho. Aun así, la propuesta llega antes de saber qué necesita tu amigo. Cuando alguien está contento, una pregunta suele abrir más que una oferta.',
+    B: 'Así se llama a la puerta. Preguntar qué valora y qué mejoraría le invita a hablar y te da pistas reales de lo que necesita. Con esa información, la recomendación casi llega sola.',
+    C: 'El precio importa, pero con alguien que está contento puede sonar a venta directa. Antes de ir a los números, prueba a preguntar qué valora de su seguro: ahí suele esconderse la oportunidad.'
+  };
+  var R3_COMMON = 'El conjuro que nunca falla: escuchar, preguntar y detectar la necesidad antes de ofrecer una solución.';
+  var NAMES = ['', 'El confesionario del miedo', 'Toca a la puerta', 'La puerta cerrada', 'El conjuro infalible'];
+  var MAX = 1500;
+  var KEY = 'vente-noche-miedos';
+  // Enlace de la aplicación web de Google Apps Script (termina en /exec). Pégalo aquí:
+  var SHEET_URL = 'PEGA_AQUI_EL_ENLACE_DE_APPS_SCRIPT';
+
+  // ---- Estado (se guarda en este navegador para no perder nada si hay un error) ----
+  function uuid(){
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    var b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    var h = Array.prototype.map.call(b, function(x){ return (x + 256).toString(16).slice(1); }).join('');
+    return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);
+  }
+  function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){ return null; } }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+  var S = load();
+  if (location.search.indexOf('nuevo') > -1) S = null;
+  if (!S || !S.submission_id) S = { submission_id: uuid(), started_at: Date.now(), step: 0, sent: false,
+    reto1_miedo: '', reto1_texto: '', reto2_respuesta: '', reto3_opcion: '', reto4_truco: '' };
+  save();
+
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  // ---- Pintar opciones ----
+  function buildOpts(box, list, name, lettered){
+    list.forEach(function(o, i){
+      var d = document.createElement('div'); d.className = 'opt';
+      var inp = document.createElement('input'); inp.type = 'radio'; inp.name = name; inp.value = o[0]; inp.id = name + i;
+      var lab = document.createElement('label'); lab.htmlFor = inp.id;
+      var mark = document.createElement('span'); mark.className = lettered ? 'letter' : 'dot'; mark.textContent = lettered ? o[0] : '';
+      var txt = document.createElement('span'); txt.textContent = o[1];
+      lab.appendChild(mark); lab.appendChild(txt); d.appendChild(inp); d.appendChild(lab); box.appendChild(d);
+    });
+  }
+  buildOpts($('#r1opts'), R1, 'reto1_miedo', false);
+  buildOpts($('#r3opts'), R3, 'reto3_opcion', true);
+
+  // ---- Restaurar respuestas y escuchar cambios ----
+  $$('input[type=radio]').forEach(function(inp){
+    if (S[inp.name] === inp.value) inp.checked = true;
+    inp.addEventListener('change', function(){
+      S[inp.name] = inp.value; save();
+      if (inp.name === 'reto1_miedo') $('#r1err').classList.remove('on');
+      if (inp.name === 'reto3_opcion') { $('#r3err').classList.remove('on'); showFeedback(); }
+    });
+  });
+  $$('textarea[data-key]').forEach(function(t){
+    t.value = S[t.dataset.key] || '';
+    var c = $('[data-count="' + t.id + '"]');
+    function upd(){
+      var n = t.value.length;
+      c.textContent = n.toLocaleString('es-ES') + ' / 1.500';
+      c.classList.toggle('near', n > MAX * 0.9);
+    }
+    upd();
+    t.addEventListener('input', function(){
+      S[t.dataset.key] = t.value; save(); upd();
+      var e = t.id === 'r2text' ? '#r2err' : t.id === 'r4text' ? '#r4err' : null;
+      if (e && t.value.trim()) $(e).classList.remove('on');
+    });
+  });
+  function showFeedback(){
+    var v = S.reto3_opcion;
+    if (!v) return;
+    $('#r3fbText').textContent = R3_FEEDBACK[v];
+    $('#r3fbCommon').textContent = R3_COMMON;
+    var f = $('#r3feedback'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+  }
+  if (S.reto3_opcion) showFeedback();
+
+  // ---- Navegación ----
+  function go(n){
+    S.step = n; save();
+    $$('.screen').forEach(function(s){ s.classList.toggle('on', +s.dataset.screen === n); });
+    var p = $('#progress');
+    p.classList.toggle('on', n >= 1 && n <= 4);
+    $$('.step', p).forEach(function(s, i){
+      s.classList.toggle('done', i + 1 < n);
+      s.classList.toggle('now', i + 1 === n);
+    });
+    if (n >= 1 && n <= 4) { $('#progressLabel').textContent = 'Reto ' + n + ' de 4'; $('#progressName').textContent = NAMES[n]; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (n === 5) confetti();
+  }
+  $$('[data-go]').forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.go); }); });
+
+  function valid(step){
+    var ok = true, el = null;
+    if (step === 1 && !S.reto1_miedo) { ok = false; el = '#r1err'; }
+    if (step === 2 && !S.reto2_respuesta.trim()) { ok = false; el = '#r2err'; }
+    if (step === 3 && !S.reto3_opcion) { ok = false; el = '#r3err'; }
+    if (step === 4 && !S.reto4_truco.trim()) { ok = false; el = '#r4err'; }
+    if (el) { var e = $(el); e.classList.add('on'); e.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    return ok;
+  }
+  $$('[data-next]').forEach(function(b){
+    b.addEventListener('click', function(){ var s = +b.dataset.next; if (valid(s)) go(s + 1); });
+  });
+
+  // ---- Envío (un único envío al final; reintentos seguros con el mismo identificador) ----
+  var sending = false;
+  var btn = $('#sendBtn'), alertBox = $('#sendErr');
+  btn.addEventListener('click', function(){
+    if (sending) return;
+    alertBox.classList.remove('on');
+    for (var s = 1; s <= 4; s++) { if (!valid(s)) { if (s < 4) go(s); return; } }
+    sending = true;
+    btn.disabled = true; btn.classList.add('loading'); $('#sendLbl').textContent = 'Guardando…';
+    $('#back4').disabled = true;
+    var payload = {
+      submission_id: S.submission_id,
+      reto1_miedo: S.reto1_miedo,
+      reto1_texto: S.reto1_texto.trim(),
+      reto2_respuesta: S.reto2_respuesta.trim(),
+      reto3_opcion: S.reto3_opcion,
+      reto4_truco: S.reto4_truco.trim(),
+      elapsed_ms: Date.now() - S.started_at,
+      website: $('#website').value
+    };
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 20000);
+    if (SHEET_URL.indexOf('https://script.google.com/') !== 0) {
+      fail('El guardado todavía no está configurado.');
+      return;
+    }
+    // text/plain evita el bloqueo del navegador con Google; el contenido sigue siendo JSON
+    fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(j){ return { status: r.status, body: j }; });
+    }).then(function(res){
+      if (res.body && res.body.ok === true) {
+        S.sent = true; save(); go(5);
+      } else {
+        fail(res.body && res.body.error ? res.body.error : 'No hemos podido guardar tus respuestas.');
+      }
+    }).catch(function(){
+      fail('Parece que se ha cortado la conexión. Tus respuestas siguen aquí: comprueba tu conexión y vuelve a intentarlo.');
+    }).then(function(){ clearTimeout(timer); });
+  });
+  function fail(msg){
+    sending = false;
+    btn.disabled = false; btn.classList.remove('loading'); $('#sendLbl').textContent = 'Reintentar el conjuro';
+    $('#back4').disabled = false;
+    alertBox.textContent = msg + ' No se ha perdido nada de lo que has escrito.';
+    alertBox.classList.add('on');
+  }
+
+  // ---- Decoración ----
+  function sky(){
+    var sk = $('#sky');
+    for (var i = 0; i < 40; i++) {
+      var s = document.createElement('i'); s.className = 'star';
+      s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 70 + '%';
+      s.style.animationDelay = (Math.random() * 4) + 's';
+      sk.appendChild(s);
+    }
+    var batSvg = '<svg viewBox="0 0 40 20" fill="currentColor"><path d="M20 6c1-2 2-3 2-3l1 3c3-3 8-4 13-2-3 1-4 3-4 6-2-2-5-2-7 0-1-1-3-2-5-1-2-1-4 0-5 1-2-2-5-2-7 0 0-3-1-5-4-6 5-2 10-1 13 2l1-3s1 1 2 3z"/></svg>';
+    [[18, 0], [32, 7]].forEach(function(b){
+      var d = document.createElement('div'); d.className = 'bat'; d.innerHTML = batSvg;
+      d.style.top = b[0] + '%'; d.style.animationDelay = b[1] + 's';
+      sk.appendChild(d);
+    });
+  }
+  function confetti(){
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box = document.createElement('div'); box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+    var cols = ['#f08a24', '#ffc27a', '#ffffff', '#8cc2f0', '#195184'];
+    for (var i = 0; i < 70; i++) {
+      var c = document.createElement('i');
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = cols[i % cols.length];
+      c.style.animationDuration = (2.4 + Math.random() * 2.2) + 's';
+      c.style.animationDelay = (Math.random() * .8) + 's';
+      box.appendChild(c);
+    }
+    document.body.appendChild(box);
+    setTimeout(function(){ box.remove(); }, 6000);
+  }
+  sky();
+  go(S.sent ? 5 : Math.min(S.step || 0, 4));
+})();
+</script>
+</body>
+</html>
